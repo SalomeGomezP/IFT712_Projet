@@ -12,7 +12,7 @@ import pandas as pd
 data = pd.read_csv("data/train/train.csv")
 dataT =data['AdoptionSpeed']
 t_train=list(pd.Series(dataT.values.tolist()))
-dataX=data.drop(['AdoptionSpeed','Name','Description'],axis=1)
+dataX=data.drop(['AdoptionSpeed','Name','Description','RescuerID','PetID'],axis=1)
 x_train=list(pd.Series(dataX.values.tolist()))
 
 #Visualization
