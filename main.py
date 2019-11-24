@@ -5,16 +5,21 @@ Created on Fri Nov 15 11:23:37 2019
 @author: Julien
 """
 
-import csv
+import numpy as np
 import pandas as pd
 
 # Import & format
 data = pd.read_csv("data/train/train.csv")
-dataT =data['AdoptionSpeed']
-t_train=list(pd.Series(dataT.values.tolist()))
-dataX=data.drop(['AdoptionSpeed','Name','Description','RescuerID','PetID'],axis=1)
-x_train=list(pd.Series(dataX.values.tolist()))
+msk = np.random.rand(len(data)) < 0.8
+data_train=data[msk]
+data_test=data[~msk]
 
-#Visualization
-for col in dataX :
-    dataX.hist(column=col)
+t_train=list(pd.Series(data_train['AdoptionSpeed'].values.tolist()))
+columns_to_drop=['AdoptionSpeed','Name','Description','RescuerID','PetID']
+x_train=list(pd.Series(data_train.drop(columns_to_drop,axis=1).values.tolist()))
+
+t_test=list(pd.Series(data_test['AdoptionSpeed'].values.tolist()))
+x_test=list(pd.Series(data_test.drop(columns_to_drop,axis=1).values.tolist()))
+
+
+    
