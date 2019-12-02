@@ -11,14 +11,14 @@ import numpy as np
 class logReg():
     
     def __init__(self,X_train, T_train):
-        self.clf = LogisticRegression(solver='liblinear').fit(X_train, T_train)
+        self.clf = LogisticRegression(solver='liblinear',multi_class='auto').fit(X_train, T_train)
         self.check1 = 1
     
     def predict(self,X):
         return self.clf.predict(X)
     
     def fit(self,X_train,T_train):
-        self.clf = LogisticRegression(solver='liblinear').fit(X_train, T_train)
+        self.clf = LogisticRegression(solver='liblinear',multi_class='auto').fit(X_train, T_train)
 
     def train(self, X_train,T_train, X_test,T_test):     
         T_train_p = self.predict(X_train)
