@@ -11,7 +11,7 @@ import numpy as np
 class logReg():
     
     def __init__(self,X_train, T_train):
-        self.clf = LogisticRegression(C=0.5).fit(X_train, T_train)
+        self.clf = LogisticRegression(solver='liblinear',multi_class='auto').fit(X_train, T_train)
         self.check1 = 1
     
     def predict(self,X):
