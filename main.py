@@ -29,7 +29,7 @@ x_test=list(pd.Series(data_test.drop(columns_to_drop,axis=1).values.tolist()))
 # =============================================================================
     
 LR=logReg(x_train,t_train)
-[err_train,err_test]=LR.train(x_train,t_train,x_test,t_test)
+[err_train,err_test]=LR.error(x_train,t_train,x_test,t_test)
 
 prediction_train = LR.T_train_p
 print('Erreur train = ', err_train, '%')
