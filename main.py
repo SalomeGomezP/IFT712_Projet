@@ -46,7 +46,7 @@ x_train=list(data_train)
 x_test=list(data_test)
 
     
-LR=logReg(x_train,t_train)
+LR=logReg(x_train,t_train,True)
 [err_train,err_test]=LR.error(x_train,t_train,x_test,t_test)
 
 prediction_train = LR.T_train_p
