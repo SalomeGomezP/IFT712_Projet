@@ -8,6 +8,7 @@ Created on Fri Nov 15 11:23:37 2019
 import numpy as np
 import pandas as pd
 from LDA import LDA
+from logistic_regression import logReg
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
@@ -56,3 +57,10 @@ LDA=LDA()
 print('Erreur train = ', err_train, '%')
 print('Erreur test = ', err_test, '%')
 
+    
+#LR=logReg(x_train,t_train,True)
+#[err_train,err_test]=LR.error(x_train,t_train,x_test,t_test)
+
+#prediction_train = LR.T_train_p
+#print('Erreur train = ', err_train, '%')
+#print('Erreur test = ', err_test, '%')
