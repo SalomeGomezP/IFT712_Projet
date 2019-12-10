@@ -10,6 +10,7 @@ import pandas as pd
 from LDA import LDA
 from logistic_regression import logReg
 from DecisionTrees import DT
+from SVM import SVM
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
@@ -52,17 +53,30 @@ x_test=list(data_test)
 #x_test=list(pd.Series(data_test.values.tolist()))
 
 
+# =============================================================================
+# DT=DT()
+# [err_train,err_test]=DT.launch(x_train,x_test,t_train,t_test, False, False)
+#
+# print('Erreur train = ', err_train, '%')
+# print('Erreur test = ', err_test, '%')
+# =============================================================================
 
-DT=DT()
-[err_train,err_test]=DT.launch(x_train,x_test,t_train,t_test, False, False)
-
-print('Erreur train = ', err_train, '%')
-print('Erreur test = ', err_test, '%')
+# =============================================================================
+# LDA=LDA()
+# [err_train,err_test]=LDA.launch(x_train,x_test,t_train,t_test)
+# 
+# print('Erreur train = ', err_train, '%')
+# print('Erreur test = ', err_test, '%')
+# =============================================================================
 
     
 #LR=logReg(x_train,t_train,True)
 #[err_train,err_test]=LR.error(x_train,t_train,x_test,t_test)
 
-#prediction_train = LR.T_train_p
-#print('Erreur train = ', err_train, '%')
-#print('Erreur test = ', err_test, '%')
+SVM = SVM(x_train,t_train,True)
+[err_train,err_test]=SVM.error(x_train,t_train,x_test,t_test)
+
+# =============================================================================
+# print('Erreur train = ', err_train, '%')
+# print('Erreur test = ', err_test, '%')
+# =============================================================================
