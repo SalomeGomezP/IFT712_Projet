@@ -29,32 +29,39 @@ class SVM():
         c_best = 0.5
         k_best="rbf"
         deg_best=2
+        gamma_best=0
         kernel=["linear", "rbf", "poly", "sigmoid"]
+        c_array=np.logspace(-3, 5, 9)
+        gamma_array=np.logspace(-5, 1, 6)
+
         for k in tqdm(kernel) :
-            for c_power in range(30,100,5):
-                c=c_power/100                
-                if  k=='poly' :
-                    for deg in range (1,5):
-                        self.test_parameters (X_train, T_train,c_best,k_best,deg_best,c,k,deg,err_min)
+            for c in c_array :
+                if k!="linear":
+                    for gamma in gamma_array :
+                        if  k=='poly' :
+                            for deg in range (1,5):
+                                [err_min,c_best,k_best,deg_best,gamma_best] = self.test_parameters (X_train, T_train,c_best,k_best,deg_best,gamma_best,c,k,deg,gamma,err_min)
                 else :
                     deg=0
-                    self.test_parameters (X_train, T_train,c_best,k_best,deg_best,c,k,deg,err_min)
+                    gamma="auto"
+                    [err_min,c_best,k_best,deg_best,gamma_best] = self.test_parameters (X_train, T_train,c_best,k_best,deg_best,gamma_best,c,k,deg,gamma,err_min)
                     
         self.clf = SVC(C=c_best,kernel=k_best).fit(X_train, T_train)
-        print("C= "+str(c_best)+"  Kernel= "+str(k_best))
+        print("Paramètres optimaux : C= "+str(c_best)+"  Kernel= "+str(k_best)+" gamma= "+str(gamma_best))
         return
     
-    def test_parameters(self,X_train, T_train,c_best,k_best,deg_best,c,k,deg,err_min):
+    def test_parameters(self,X_train, T_train,c_best,k_best,deg_best,gamma_best,c,k,deg,gamma,err_min):
         X_train2, X_valid, T_train2, T_valid = train_test_split(
         X_train, T_train, test_size=0.2, random_state=0)
-        self.clf=SVC(gamma='auto',C=c,kernel=k,degree=deg).fit(X_train2,T_train2)
-        [err_train,err_test]=self.error(X_train2,T_train2, X_valid,T_valid)
-        if(err_test<err_min):
-            err_min=err_test
+        self.clf=SVC(C=c,kernel=k,degree=deg,gamma=gamma).fit(X_train2,T_train2)
+        [err_train,err_valid]=self.error(X_train2,T_train2, X_valid,T_valid)
+        if(err_valid<err_min):
+            err_min=err_valid
             c_best = c
             k_best = k
             deg_best=deg
-        return [c_best,k_best,deg_best]
+            gamma_best=gamma
+        return [err_min,c_best,k_best,deg_best,gamma_best]
                 
     def error(self, X_train,T_train, X_test,T_test):
         T_train_p = self.predict(X_train)
@@ -66,3 +73,5 @@ class SVM():
         err_train = np.sum(Err_train)/len(X_train)*100
         err_test = np.sum(Err_test)/len(X_test)*100
         return[err_train,err_test]
+        
+    
