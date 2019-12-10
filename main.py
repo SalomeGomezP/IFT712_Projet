@@ -10,6 +10,7 @@ import pandas as pd
 from LDA import LDA
 from logistic_regression import logReg
 from DecisionTrees import DT
+from MLP import MLP
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
@@ -53,8 +54,8 @@ x_test=list(data_test)
 
 
 
-DT=DT()
-[err_train,err_test]=DT.launch(x_train,x_test,t_train,t_test, False, False)
+MLP=MLP()
+[err_train,err_test]=MLP.launch(x_train,x_test,t_train,t_test)
 
 print('Erreur train = ', err_train, '%')
 print('Erreur test = ', err_test, '%')
