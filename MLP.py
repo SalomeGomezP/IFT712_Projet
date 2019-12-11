@@ -14,7 +14,7 @@ class MLP:
         self.mlp=None
 
     def training(self, X, t, params):
-        mlp=MLPClassifier(params)
+        mlp=MLPClassifier(activation=params['activation'],alpha=params['alpha'], hidden_layer_sizes=params['hidden_layer_sizes'], solver=params['solver'], max_iter=300)
         mlp.fit(X, t)  
         self.mlp=mlp
         
@@ -24,9 +24,12 @@ class MLP:
         return t
     
         
-    def launch(self,x_train, x_test, t_train, t_test) :
+    def launch(self,x_train, x_test, t_train, t_test, search_hyperparams) :
         
-        params=self.search_hyperparams(x_train,t_train)
+        if (search_hyperparams==True)    :
+            params=self.search_hyperparams(x_train,t_train)
+        else :
+            params={'activation': 'tanh', 'alpha': 0.005, 'hidden_layer_sizes': (99, 89), 'solver': 'adam'}
         
         self.training(x_train, t_train, params)
         
@@ -47,16 +50,16 @@ class MLP:
     
     def search_hyperparams(self,x,t):
         
-        mlp = MLPClassifier(max_iter=100)
+        mlp = MLPClassifier(max_iter=300)
         
         #generation hidden layer(s)
         array=[]
-        for  i in range (69,100,10):
+        for  i in range (69,100,5):
             list_one_layer=list()          
             list_one_layer.append(i)
             array.append(tuple(list_one_layer))
             
-            for j in range (69,100,10):
+            for j in range (69,100,5):
                 list_two_layer=list()
                 list_two_layer.append(i)
                 list_two_layer.append(j)
@@ -72,7 +75,7 @@ class MLP:
         search = GridSearchCV(mlp, parameter_space, n_jobs=-1, cv=3)
         search.fit(x,t)
         
-        print('Best parameters found:\n', search.best_params_)
-        print('Loss associated :\n', search.best_score_)
+        print('Meilleurs paramètres trouvés :\n', search.best_params_)
+        print('Loss associée :\n', search.best_score_)
         
         return search.best_params_
