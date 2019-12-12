@@ -10,6 +10,10 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.ensemble import BaggingClassifier
 from sklearn.linear_model import LogisticRegression
+from LDA import LDA
+from logistic_regression import logReg
+from DecisionTrees import DT
+from SVM import SVM
 
 import pandas as pd
 import numpy as np
@@ -18,7 +22,7 @@ class Combined_Models():
     
     def __init__(self, X_train, T_train, method="DecisionTree"):
         if method=="SVM":
-            self.clf = BaggingClassifier(base_estimator=SVC(C=0.1,kernel="linear",gamma="auto"),n_estimators=10, random_state=0)
+            self.clf = BaggingClassifier(base_estimator=SVC(C=0.1,kernel="linear",gamma="auto"),n_estimators=100, random_state=0)
             self.clf.fit(X_train, T_train)
         else :
             self.clf = BaggingClassifier(base_estimator=DecisionTreeClassifier(),n_estimators=10, random_state=0)
@@ -33,17 +37,27 @@ class Combined_Models():
         return[err_train,err_test]
         
 class Custom_Combined_Models():
-    def __init__(self, X_train, T_train):
-            clf_SVC = BaggingClassifier(base_estimator=SVC(C=0.1,kernel="linear",gamma="auto"),n_estimators=10, random_state=0).fit(X_train, T_train)
-            clf_DT = DecisionTreeClassifier().fit(X_train, T_train)
+    def __init__(self, X_train, T_train, cross_validation=False):
+        self.cross_valid = cross_validation
+        if not cross_validation :
+            clf_SVC = SVC(C=0.1,kernel="linear",gamma="auto").fit(X_train, T_train)
             clf_LDA = LinearDiscriminantAnalysis(solver='eigen', shrinkage='auto').fit(X_train, T_train)
             clf_LR = LogisticRegression(solver='liblinear',C=0.4,multi_class='auto').fit(X_train, T_train)
-            self.models=[clf_SVC,clf_DT,clf_LDA,clf_LR]          
+            self.models=[clf_SVC,clf_LDA,clf_LR]       
+            
+        else :
+            clf_SVC = SVM(X_train, T_train,True)
+            #On n'utilise pas les données de test car on ne s'intéresse pas encore aux performances
+            clf_LDA = LDA()
+            clf_LDA.launch(X_train,X_train,T_train,T_train)
+            clf_LR = logReg(X_train, T_train,True)
+            self.models=[clf_SVC,clf_LDA,clf_LR]
 
     def prediction(self,X):
         results = []
         for model in self.models :
             results.append(model.predict(X))
+                
         predictions = pd.DataFrame(results).mode(axis=0)
         return predictions.to_numpy()[0]
                 
@@ -58,11 +72,8 @@ class Custom_Combined_Models():
     def predict_SVC(self,X):
         return self.models[0].predict(X)
     
-    def predict_DT(self,X):
+    def predict_LDA(self,X):
         return self.models[1].predict(X)
     
-    def predict_LDA(self,X):
-        return self.models[2].predict(X)
-    
     def predict_LR(self,X):
-        return self.models[3].predict(X)
+        return self.models[2].predict(X)

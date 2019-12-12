@@ -27,7 +27,7 @@ class LDA:
         self.discriminant=discriminant
         
 
-    def prediction(self, x):
+    def predict(self, x):
         t=self.discriminant.predict(x)
         return t
     
@@ -39,8 +39,8 @@ class LDA:
         
         self.training(x_train, t_train, solver)
         
-        t_train_prediction=self.prediction(x_train)
-        t_test_prediction=self.prediction(x_test)
+        t_train_prediction=self.predict(x_train)
+        t_test_prediction=self.predict(x_test)
         
         error_train=self.error(t_train, t_train_prediction)
         error_test=self.error(t_test, t_test_prediction)

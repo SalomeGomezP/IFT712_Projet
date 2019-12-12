@@ -50,6 +50,6 @@ class logReg():
                     t_best = t
         
         self.clf = LogisticRegression(solver='liblinear',C=c_best,tol=t_best,multi_class='auto').fit(X_train, T_train)
-        print("C= "+str(c_best)+"  tol= "+str(t_best))
+        #print("C= "+str(c_best)+"  tol= "+str(t_best))
         return   
 

@@ -45,7 +45,7 @@ class SVM():
                     [err_min,c_best,k_best,deg_best,gamma_best] = self.test_parameters (X_train, T_train,c_best,k_best,deg_best,gamma_best,c,k,deg,gamma,err_min)
                     
         self.clf = SVC(C=c_best,kernel=k_best).fit(X_train, T_train)
-        print("Paramètres optimaux : C= "+str(c_best)+"  Kernel= "+str(k_best)+" gamma= "+str(gamma_best))
+        #print("Paramètres optimaux : C= "+str(c_best)+"  Kernel= "+str(k_best)+" gamma= "+str(gamma_best))
         return
     
     def test_parameters(self,X_train, T_train,c_best,k_best,deg_best,gamma_best,c,k,deg,gamma,err_min):
