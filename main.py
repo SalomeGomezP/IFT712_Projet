@@ -10,7 +10,7 @@ import pandas as pd
 from LDA import LDA
 from logistic_regression import logReg
 from DecisionTrees import DT
-from Combining_models import Combined_Models
+from Combining_models import Combined_Models, Custom_Combined_Models
 from SVM import SVM
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
@@ -82,9 +82,40 @@ x_test=list(data_test)
 # print('Erreur test = ', err_test, '%')
 # =============================================================================
 
-COM = Combined_Models(x_train,t_train)
-[err_train,err_test]=COM.error(x_train,t_train,x_test,t_test)
+# =============================================================================
+# COM = Combined_Models(x_train,t_train)
+# [err_train,err_test]=COM.error(x_train,t_train,x_test,t_test)
+# print('Erreur train = ', err_train, '%')
+# print('Erreur test = ', err_test, '%')
+# =============================================================================
+
+CCM = Custom_Combined_Models(x_train,t_train)
+T_train_p = CCM.prediction(x_train)
+T_test_p = CCM.prediction(x_test)
+[err_train,err_test] = CCM.error(x_train,t_train,x_test,t_test,T_train_p,T_test_p)
 print('Erreur train = ', err_train, '%')
 print('Erreur test = ', err_test, '%')
 
+T_train_p = CCM.predict_SVC(x_train)
+T_test_p = CCM.predict_SVC(x_test)
+[err_train,err_test] = CCM.error(x_train,t_train,x_test,t_test,T_train_p,T_test_p)
+print('Erreur train SVC = ', err_train, '%')
+print('Erreur test SVC = ', err_test, '%')
 
+T_train_p = CCM.predict_DT(x_train)
+T_test_p = CCM.predict_DT(x_test)
+[err_train,err_test] = CCM.error(x_train,t_train,x_test,t_test,T_train_p,T_test_p)
+print('Erreur train DT = ', err_train, '%')
+print('Erreur test DT = ', err_test, '%')
+
+T_train_p = CCM.predict_LDA(x_train)
+T_test_p = CCM.predict_LDA(x_test)
+[err_train,err_test] = CCM.error(x_train,t_train,x_test,t_test,T_train_p,T_test_p)
+print('Erreur train LDA = ', err_train, '%')
+print('Erreur test LDA = ', err_test, '%')
+
+T_train_p = CCM.predict_LR(x_train)
+T_test_p = CCM.predict_LR(x_test)
+[err_train,err_test] = CCM.error(x_train,t_train,x_test,t_test,T_train_p,T_test_p)
+print('Erreur train LR = ', err_train, '%')
+print('Erreur test LR = ', err_test, '%')
