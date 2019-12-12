@@ -23,7 +23,6 @@ class logReg():
 
     def error(self, X_train,T_train, X_test,T_test):
         T_train_p = self.predict(X_train)
-        self.T_train_p=T_train_p
         T_test_p = self.predict(X_test)
         Err_train = np.int32(T_train_p!=T_train)
         Err_test = np.int32(T_test_p!=T_test)

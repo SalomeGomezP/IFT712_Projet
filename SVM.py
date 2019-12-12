@@ -10,8 +10,6 @@ import numpy as np
 from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 
-#le jeu de données étant de petite taille, on peu utiliser le SVC
-
 class SVM():
     
     def __init__(self,X_train, T_train, cross_val):

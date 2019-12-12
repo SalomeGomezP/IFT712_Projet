@@ -10,9 +10,11 @@ import pandas as pd
 from LDA import LDA
 from logistic_regression import logReg
 from DecisionTrees import DT
+from Combining_models import Combined_Models
 from SVM import SVM
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
+
 
 # Import & format
 data = pd.read_csv("train.csv")
@@ -25,8 +27,6 @@ data['species']=data['species'].cat.codes
 msk = np.random.rand(len(data)) < 0.8
 data_train=data[msk]
 data_test=data[~msk]
-
-
 
 t_train=list(pd.Series(data_train['species'].values.tolist()))
 t_test=list(pd.Series(data_test['species'].values.tolist()))
@@ -69,14 +69,22 @@ x_test=list(data_test)
 # print('Erreur test = ', err_test, '%')
 # =============================================================================
 
-    
-#LR=logReg(x_train,t_train,True)
-#[err_train,err_test]=LR.error(x_train,t_train,x_test,t_test)
-
-SVM = SVM(x_train,t_train,True)
-[err_train,err_test]=SVM.error(x_train,t_train,x_test,t_test)
+# =============================================================================
+# LR=logReg(x_train,t_train,True)
+# [err_train,err_test]=LR.error(x_train,t_train,x_test,t_test)
+# =============================================================================
 
 # =============================================================================
+# SVM = SVM(x_train,t_train,True)
+# [err_train,err_test]=SVM.error(x_train,t_train,x_test,t_test)
+
 # print('Erreur train = ', err_train, '%')
 # print('Erreur test = ', err_test, '%')
 # =============================================================================
+
+COM = Combined_Models(x_train,t_train)
+[err_train,err_test]=COM.error(x_train,t_train,x_test,t_test)
+print('Erreur train = ', err_train, '%')
+print('Erreur test = ', err_test, '%')
+
+
