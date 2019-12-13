@@ -12,7 +12,7 @@ from sklearn.ensemble import BaggingClassifier
 from sklearn.linear_model import LogisticRegression
 from LDA import LDA
 from logistic_regression import logReg
-from DecisionTrees import DT
+from decision_trees import DT
 from SVM import SVM
 
 import pandas as pd
