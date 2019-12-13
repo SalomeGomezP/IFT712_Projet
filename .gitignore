@@ -1,1 +1,8 @@
 Data
+*.pyc
+*.pyc
+__pycache__/SVM.cpython-37.pyc
+__pycache__/logistic_regression.cpython-37.pyc
+__pycache__/LDA.cpython-37.pyc
+__pycache__/DecisionTrees.cpython-37.pyc
+__pycache__/Combining_models.cpython-37.pyc
