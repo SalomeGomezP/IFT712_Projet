@@ -62,12 +62,14 @@ x_test=list(data_test)
 # print('Erreur test = ', err_test, '%')
 # =============================================================================
 
-MLP=MLP()
-[err_train,err_test]=MLP.launch(x_train,x_test,t_train,t_test, False)
-
-print('Erreur train = ', err_train, '%')
-print('Erreur test = ', err_test, '%')
-
+# =============================================================================
+# MLP=MLP()
+# [err_train,err_test]=MLP.launch(x_train,x_test,t_train,t_test, False)
+# 
+# print('Erreur train = ', err_train, '%')
+# print('Erreur test = ', err_test, '%')
+# 
+# =============================================================================
 # =============================================================================
 # LR=logReg(x_train,t_train,True)
 # [err_train,err_test]=LR.error(x_train,t_train,x_test,t_test)

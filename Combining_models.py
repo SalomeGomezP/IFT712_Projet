@@ -40,51 +40,53 @@ class Custom_Combined_Models():
     
     ## Sans création de plusieurs ensembles d'entrainement
     
-    def __init__(self, X_train, T_train, cross_validation=False):
-        self.cross_valid = cross_validation
-        if not cross_validation :
-            clf_SVC = SVC(C=0.1,kernel="linear",gamma="auto").fit(X_train, T_train)
-            clf_LDA = LinearDiscriminantAnalysis(solver='eigen', shrinkage='auto').fit(X_train, T_train)
-            clf_LR = LogisticRegression(solver='liblinear',C=0.4,multi_class='auto').fit(X_train, T_train)    
-            self.models=[clf_SVC,clf_LDA,clf_LR]       
-            
-        else :
-            clf_SVC = SVM(X_train, T_train,True)
-            #On n'utilise pas les données de test car on ne s'intéresse pas encore aux performances
-            clf_LDA = LDA()
-            clf_LDA.launch(X_train,X_train,T_train,T_train)
-            clf_LR = logReg(X_train, T_train,True)
-            self.models=[clf_SVC,clf_LDA,clf_LR]
-
-    ## Avec création de plusieurs ensembles d'entrainement
-
 # =============================================================================
 #     def __init__(self, X_train, T_train, cross_validation=False):
-#         idx = np.random.permutation(len(X_train))
-#         train_idx1 = idx[:round(len(X_train)/3)]
-#         train_idx2 = idx[round(len(X_train)/3):2*round(len(X_train)/3)]
-#         train_idx3 = idx[2*round(len(X_train)/3):]
-#                 
-#         X_train1 = [ X_train[i] for i in train_idx1]
-#         T_train1 = [ T_train[i] for i in train_idx1]
-#         X_train2 = [ X_train[i] for i in train_idx2]
-#         T_train2 = [ T_train[i] for i in train_idx2]
-#         X_train3 = [ X_train[i] for i in train_idx3]
-#         T_train3 = [ T_train[i] for i in train_idx3]
-#         
+#         self.cross_valid = cross_validation
 #         if not cross_validation :
-#             clf_SVC = SVC(C=0.1,kernel="linear",gamma="auto").fit(X_train1, T_train1)
-#             clf_LDA = LinearDiscriminantAnalysis(solver='eigen', shrinkage='auto').fit(X_train2, T_train2)
-#             clf_LR = LogisticRegression(solver='liblinear',C=0.4,multi_class='auto').fit(X_train3, T_train3)
+#             clf_SVC = SVC(C=0.1,kernel="linear",gamma="auto").fit(X_train, T_train)
+#             clf_LDA = LinearDiscriminantAnalysis(solver='eigen', shrinkage='auto').fit(X_train, T_train)
+#             clf_LR = LogisticRegression(solver='liblinear',C=0.4,multi_class='auto').fit(X_train, T_train)    
 #             self.models=[clf_SVC,clf_LDA,clf_LR]       
 #             
 #         else :
-#             clf_SVC = SVM(X_train1, T_train1,True)
+#             clf_SVC = SVM(X_train, T_train,True)
+#             #On n'utilise pas les données de test car on ne s'intéresse pas encore aux performances
 #             clf_LDA = LDA()
-#             clf_LDA.launch(X_train2,X_train2,T_train2,T_train2)
-#             clf_LR = logReg(X_train3, T_train3,True)
+#             clf_LDA.launch(X_train,X_train,T_train,T_train)
+#             clf_LR = logReg(X_train, T_train,True)
 #             self.models=[clf_SVC,clf_LDA,clf_LR]
 # =============================================================================
+
+    ## Avec création de plusieurs ensembles d'entrainement
+
+    def __init__(self, X_train, T_train, cross_validation=False):
+        idx1 = np.random.permutation(len(X_train))
+        train_idx1 = idx1[:round(len(X_train)*0.75)]
+        idx2 = np.random.permutation(len(X_train))
+        train_idx2 = idx2[:round(len(X_train)*0.75)]
+        idx3 = np.random.permutation(len(X_train))
+        train_idx3 = idx3[:round(len(X_train)*0.75)]
+                
+        X_train1 = [ X_train[i] for i in train_idx1]
+        T_train1 = [ T_train[i] for i in train_idx1]
+        X_train2 = [ X_train[i] for i in train_idx2]
+        T_train2 = [ T_train[i] for i in train_idx2]
+        X_train3 = [ X_train[i] for i in train_idx3]
+        T_train3 = [ T_train[i] for i in train_idx3]
+        
+        if not cross_validation :
+            clf_SVC = SVC(C=0.1,kernel="linear",gamma="auto").fit(X_train1, T_train1)
+            clf_LDA = LinearDiscriminantAnalysis(solver='eigen', shrinkage='auto').fit(X_train2, T_train2)
+            clf_LR = LogisticRegression(solver='liblinear',C=0.4,multi_class='auto').fit(X_train3, T_train3)
+            self.models=[clf_SVC,clf_LDA,clf_LR]       
+            
+        else :
+            clf_SVC = SVM(X_train1, T_train1,True)
+            clf_LDA = LDA()
+            clf_LDA.launch(X_train2,X_train2,T_train2,T_train2)
+            clf_LR = logReg(X_train3, T_train3,True)
+            self.models=[clf_SVC,clf_LDA,clf_LR]
 
     def prediction(self,X):
         results = []
