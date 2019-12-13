@@ -25,7 +25,7 @@ class DT:
         self.tree=tree
         
 
-    def prediction(self, x):
+    def predict(self, x):
         t=self.tree.predict(x)
         return t
     
@@ -38,8 +38,8 @@ class DT:
         else :
             self.training(x_train, t_train, "","")
         
-        t_train_prediction=self.prediction(x_train)
-        t_test_prediction=self.prediction(x_test)
+        t_train_prediction=self.predict(x_train)
+        t_test_prediction=self.predict(x_test)
         
         error_train=self.error(t_train, t_train_prediction)
         error_test=self.error(t_test, t_test_prediction)

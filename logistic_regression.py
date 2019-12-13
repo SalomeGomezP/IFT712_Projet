@@ -23,7 +23,6 @@ class logReg():
 
     def error(self, X_train,T_train, X_test,T_test):
         T_train_p = self.predict(X_train)
-        self.T_train_p=T_train_p
         T_test_p = self.predict(X_test)
         Err_train = np.int32(T_train_p!=T_train)
         Err_test = np.int32(T_test_p!=T_test)
@@ -51,6 +50,6 @@ class logReg():
                     t_best = t
         
         self.clf = LogisticRegression(solver='liblinear',C=c_best,tol=t_best,multi_class='auto').fit(X_train, T_train)
-        print("C= "+str(c_best)+"  tol= "+str(t_best))
+        #print("C= "+str(c_best)+"  tol= "+str(t_best))
         return   
 
