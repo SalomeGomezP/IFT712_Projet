@@ -10,7 +10,7 @@ import pandas as pd
 from LDA import LDA
 from logistic_regression import logReg
 from decision_trees import DT
-from combining_models import Combined_Models, Custom_Combined_Models
+from Combining_models import Combined_Models, Custom_Combined_Models
 from SVM import SVM
 from MLP import MLP
 from sklearn.preprocessing import StandardScaler
